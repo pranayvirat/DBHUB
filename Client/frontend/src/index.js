@@ -20,6 +20,8 @@ root.render(
   <Router>
     <Routes>
     { user &&  <Route path="/" element={<App />} /> }
+    <Route path="/signup" exact element={<Signup />} />
+    <Route path="/login" exact element={<Login />} />
      {user && <Route path="/about" element={<About />} /> }
      {user && <Route path="/postgresql" element={<PostgreSQL />} />}
      {user && <Route path="/mysql" element={<MySQL />} />}
@@ -27,6 +29,7 @@ root.render(
      {user && <Route path="/mongodb" element={<MongoDB />} />}
      {user && <Route path="/manageConnections" element={<Connections />} />}
      {user && <Route path="/getData" element={<GetData />} />}
+      <Route path="/" element={<Navigate replace to="/login" />} />
     </Routes>
     </Router>
 );
