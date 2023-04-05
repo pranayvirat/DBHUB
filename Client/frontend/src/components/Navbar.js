@@ -1,11 +1,14 @@
 import {useState} from "react"
 import "../navbar.css"
 import {Link} from "react-router-dom"
-
+import styles from "./styles.module.css"
 
 export default function Navbar(){
     const [isNavExpanded, setIsNavExpanded] = useState(false)
-
+    const handleLogout = () => {
+		localStorage.removeItem("token");
+		window.location.reload();
+	};
 
     return(
         <nav className="navigation">
@@ -26,6 +29,9 @@ export default function Navbar(){
           />
         </svg>
             </button>
+            <button className={styles.white_btn} onClick={handleLogout}>
+					Logout
+				</button>
             <div 
              className={isNavExpanded ? "navigation-menu expanded" : "navigation-menu"} >
                 <ul>
@@ -46,6 +52,12 @@ export default function Navbar(){
                     </li>
                     <li>
                         <a href="/mongodb">MongoDB</a>
+                    </li>
+                    <li>
+                        <a href="/manageConnections">Manage Connections</a>
+                    </li>
+                    <li>
+                        <a href="/getData">Centralized Data</a>
                     </li>
                 </ul>
              </div>
