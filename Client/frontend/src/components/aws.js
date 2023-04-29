@@ -189,7 +189,40 @@ const handleSubmit = (event) => {
       <h4>AWS</h4>
       <Card style={{ width: '60rem' }}>
       <Card.Img variant="top" src={AWS_log} alt="AWS_log" style={{width:250, height:250}} />
-     
+      <Card.Body>
+        <Card.Title>ABOUT</Card.Title>
+        <Card.Text>
+        AWS: Amazon Web Services (AWS) is a cloud computing platform that provides a wide range of services to businesses and organizations. AWS offers a variety of database services, including Amazon Aurora, Amazon RDS, Amazon DynamoDB, and Amazon Redshift.
+        <br />
+        Some key features of AWS include:
+        <br />
+        <ul>
+            <li>Scalability, dependability, security, and adaptability are a few of AWS's standout qualities. To address the computing and storage demands of enterprises and organizations of all sizes, Amazon provides a variety of services.  </li>
+            <li>Use Cases for AWS: AWS can be used for a wide range of applications, including web hosting, data storage, application development, machine learning, and analytics. Some of the companies that use AWS include Netflix, Airbnb, and Amazon itself.    Amazon Aurora: This is a relational database engine that is compatible with MySQL and PostgreSQL. It is designed to be highly scalable, fast, and reliable. Amazon Aurora is a good choice for businesses that need a relational database engine that can handle large volumes of data and high traffic.</li>
+            <li>Amazon DynamoDB: This is a NoSQL database service that is designed to be highly scalable and flexible. It can handle both document and key-value data models. Amazon DynamoDB is a good choice for businesses that need a fast and flexible database engine for their applications.</li>
+            <li>Security: AWS offers a range of security features and tools, including identity and access management, encryption, and network security. Businesses can use these tools to ensure that their applications and data are secure.</li>
+            <li>Pricing: AWS offers a flexible pricing model, allowing businesses to pay only for the services they use. Businesses can choose between pay-as-you-go pricing or reserved instances to save money.</li>
+        </ul>
+
+        <br />
+      <b> Paramaters:</b>
+        <ul>
+          <li>
+            <b>Access Key:</b> Access key is a unique identifier for your AWS account. It is used to authenticate your requests to AWS services.
+          </li>
+          <li>
+            <b>Secret Key:</b> Secret key is a password that is used to authenticate your access key. It is used to sign your requests to AWS services.
+
+          </li>
+          <li>
+            <b>Bucket Name:</b> A bucket is a container for objects stored in Amazon S3. Each object is uniquely identified within a bucket by a key (i.e., name). Objects consist of data and metadata that describes the data. The maximum allowed size of an object is 5 TB.
+          </li>
+          <li>
+            <b>File Path:</b> The path of the file in the bucket.
+          </li>
+        </ul>
+        </Card.Text>
+      </Card.Body>
       <ListGroup className="list-group-flush">
         <ListGroup.Item><a href="https://s3.console.aws.amazon.com/" >Learn More</a></ListGroup.Item>
       </ListGroup>
