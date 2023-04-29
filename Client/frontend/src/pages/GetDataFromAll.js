@@ -7,6 +7,16 @@ import Button from 'react-bootstrap/Button';
 
 
 
+function RenderTable(fullData){
+  const {data} = fullData;
+
+  return(
+<div >
+        
+      </div> 
+
+  )
+}
 
 const GetData = () => {
   const [tableData, setTableData] = useState([]);
