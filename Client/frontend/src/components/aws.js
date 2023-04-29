@@ -4,43 +4,177 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import AWS_log from '.././logos/AWS-logo-2.jpg'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import { Table } from 'react-bootstrap';
+
+import axios from 'axios';
+import {useState  } from 'react';
+function RenderTable(fullData){
+  const {data} = fullData;
+
+  return(
+<div style={{
+        display: "grid",
+        textAlign: "center",
+         width: "90%",
+        alignItems:"center",
+        margin: "0 auto",
+        padding: "20px",
+        bottom: "50%",
+      }}>
+
+        <h4 style={{
+          textAlign: "center",
+          fontWeight: "bold",
+          letterSpacing: "1px",
+        }}>
+        Centralized data</h4>
+        <Table striped bordered hover style={{
+          marginTop:"30px",
+        }}>
+         
+           <thead>
+            <tr>
+              {data && Object.keys(data[0]).map((key, index) => (
+                <th key={index}>{key}</th>
+              ))}
+            </tr>
+          </thead>
+
+          
+          <tbody style={{
+            textAlign: "center",
+            
+
+}}>
+  
+  {data && data.map((row, index) => (
+    <tr key={index}>
+      {Object.keys(row).map((key, index) => (
+      <td key={index}>{row[key]} </td>
+      ))}
+    </tr>
+  ))}
+</tbody>
+        </Table>
+        
+      </div> 
+
+  )
+}
+
 
 
 const AWS = () => {
+
+
+  const [tableData, setTableData] = useState([]);
+  const [formData, setFormData] = useState({
+    accessKey : "",
+    secretKey : "",
+    buketName : "",
+    filePath: "",
+    fileType: "",
+  })
+  const [checkedJSON, setCheckedJSON] = useState(false);
+  const [checkedParquet, setCheckedParquet] = useState(false);
+  const [checkedCSV, setCheckedCSV] = useState(false);
+  const [type, setType] = useState("");
+  const [showTable, setTable] = useState(false);
+  const handleChange = (event) => {
+    const { name, value } = event.target; 
+    setFormData((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
+  };
+
+
+  //Handle the Form submit event
+  const handleClick1 = (event) => {
+    event.preventDefault();
+  
+if(checkedJSON){
+  setType("json");
+ }
+ else if(checkedParquet){
+   setType("parquet");
+ }
+else if(checkedCSV){
+   setType("csv");
+ }
+ else{
+  setType("noFile");
+ }
+
+ axios.defaults.baseURL = "http://localhost:3000/api/aws"
+ axios.get('/awsRetrieval',{
+   params: {
+      accessKey: formData.accessKey,
+      secretKey: formData.secretKey,
+      buketName: formData.buketName,
+      filePath: formData.filePath,
+      fileType: type,
+   },} ).then(response => {
+   
+   const parsedData = JSON.parse(response.data.output);
+   console.log(parsedData);
+   if(parsedData.length === 0){
+     alert("No such file exists");
+   }
+   else{
+   setTableData(parsedData);
+    setTable(true);
+  
+   }
+   
+ })
+ .catch(error => {
+   console.log(error);
+ } );
+   //Reload the page
+   
+}
+
+//Handle the checkbox change event and Download data event
+
+const handleClick = async (event) => {
+  try {
+    event.preventDefault();
+    const response = await axios.get('http://localhost:3000/api/aws/aws/download',{
+     params:{
+       fileType: type,
+     },
+     responseType: 'blob',
+    });
+   
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'data.zip');
+    document.body.appendChild(link);
+    link.click();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+const handleSubmit = (event) => {
+
+  event.preventDefault();
+  
+}
+
+
+
     return(
-        <>
-        <Navbar />
-        <div style={{ display: 'block', 
-                  width: 700, 
-                  padding: 30 }}>
-                    
-      <h4>AWS</h4>
-      <Card style={{ width: '40rem' }}>
-      <Card.Img variant="top" src={AWS_log} alt="AWS_log" style={{width:250, height:250}} />
-      <Card.Body>
-        <Card.Title>ABOUT</Card.Title>
-        <Card.Text>
-        AWS: Amazon Web Services (AWS) is a cloud computing platform that provides a wide range of services to businesses and organizations. AWS offers a variety of database services, including Amazon Aurora, Amazon RDS, Amazon DynamoDB, and Amazon Redshift.
-        <br />
-        Some key features of AWS include:
-        <br />
-        <ul>
-            <li>Scalability, dependability, security, and adaptability are a few of AWS's standout qualities. To address the computing and storage demands of enterprises and organizations of all sizes, Amazon provides a variety of services.  </li>
-            <li>Use Cases for AWS: AWS can be used for a wide range of applications, including web hosting, data storage, application development, machine learning, and analytics. Some of the companies that use AWS include Netflix, Airbnb, and Amazon itself.    Amazon Aurora: This is a relational database engine that is compatible with MySQL and PostgreSQL. It is designed to be highly scalable, fast, and reliable. Amazon Aurora is a good choice for businesses that need a relational database engine that can handle large volumes of data and high traffic.</li>
-            <li>Amazon DynamoDB: This is a NoSQL database service that is designed to be highly scalable and flexible. It can handle both document and key-value data models. Amazon DynamoDB is a good choice for businesses that need a fast and flexible database engine for their applications.</li>
-            <li>Security: AWS offers a range of security features and tools, including identity and access management, encryption, and network security. Businesses can use these tools to ensure that their applications and data are secure.</li>
-            <li>Pricing: AWS offers a flexible pricing model, allowing businesses to pay only for the services they use. Businesses can choose between pay-as-you-go pricing or reserved instances to save money.</li>
-        </ul>
-        </Card.Text>
-      </Card.Body>
-      <ListGroup className="list-group-flush">
-        <ListGroup.Item><a href="https://www.mysql.com/" >Learn More</a></ListGroup.Item>
-      </ListGroup>
-    </Card>
-    </div>
-        </>
+        <></>
       
     )
 }
 
-export default AWS;
+export default AWS;
