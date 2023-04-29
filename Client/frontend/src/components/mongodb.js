@@ -15,6 +15,16 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
+function RenderModal(mongoData) {
+  const [show, setShow] = useState(true);
+  const {data} = mongoData;
+ 
+  return (
+    <>
+      
+    </>
+  );
+}
 
 export default function MongoDB() {
 
