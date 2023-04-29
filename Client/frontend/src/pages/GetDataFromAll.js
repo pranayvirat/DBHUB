@@ -11,7 +11,50 @@ function RenderTable(fullData){
   const {data} = fullData;
 
   return(
-<div >
+<div style={{
+        display: "grid",
+        textAlign: "center",
+         width: "90%",
+        alignItems:"center",
+        margin: "0 auto",
+        padding: "20px",
+        bottom: "50%",
+      }}>
+
+        <h4 style={{
+          textAlign: "center",
+          fontWeight: "bold",
+          letterSpacing: "1px",
+        }}>
+        Centralized data</h4>
+        <Table striped bordered hover style={{
+          marginTop:"30px",
+        }}>
+         
+           <thead>
+            <tr>
+              {data && Object.keys(data[0]).map((key, index) => (
+                <th key={index}>{key}</th>
+              ))}
+            </tr>
+          </thead>
+
+          
+          <tbody style={{
+            textAlign: "center",
+            
+
+}}>
+  
+  {data && data.map((row, index) => (
+    <tr key={index}>
+      {Object.keys(row).map((key, index) => (
+      <td key={index}>{row[key]} </td>
+      ))}
+    </tr>
+  ))}
+</tbody>
+        </Table>
         
       </div> 
 
