@@ -21,7 +21,61 @@ function RenderModal(mongoData) {
  
   return (
     <>
-      
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        dialogClassName="modal-90w"
+        aria-labelledby="example-custom-modal-styling-title"
+        style={{
+          width: "2000px",
+          height: "100%",
+          marginTop: "0px",
+          marginRight: "0px",
+          marginLeft: "0px",
+          marginBottom: "0px",
+          overflow: "auto",
+          // position: "fixed",
+        
+
+        }}
+        size = 'xl'
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Postgres DATA
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+ <Table striped bordered hover style={{
+          marginTop: "30px",
+          marginRight: "0px",
+          width: "100%",
+        }}>
+          <thead>
+            <tr>
+              {data && Object.keys(data[0]).map((key, index) => (
+                <th key={index}>{key}</th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody style={{
+
+          }}>
+            
+            {data && data.map((row, index) => (
+              <tr key={index}>
+                {Object.keys(row).map((key, index) => (
+                <td key={index}>{row[key]} </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </Table> 
+
+
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
