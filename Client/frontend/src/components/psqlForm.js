@@ -21,11 +21,12 @@ export default function Details() {
     password:''
 
   });
-
+  const [checked, setChecked] = useState(false);
+  const [connectionOutput, setConnectionOutput] = useState('');
   const handleInputChange = (event) =>{
     const {name, value } = event.target;
     setFormData({ ...formData,[name]:value});
-  };
+  };  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -33,12 +34,6 @@ export default function Details() {
   };
   const handleClick =  (event) => {
     event.preventDefault();
-    const check_url = formData.url
-    const check_username = formData.username
-    const check_password = formData.password
-    if(check_url.trim() === "" || check_username.trim() === "" || check_password.trim() === ""){
-      alert("Please specify values")
-    }else{
     axios.defaults.baseURL="http://localhost:3000"
       axios
       .get("/execute-spark-job", {
@@ -48,21 +43,37 @@ export default function Details() {
           password: formData.password,
         },
       })
-      .then((result) => {
-        console.log(result);
-        //window.prompt("Connection Successful")
+      .then(async (result) => {
+        setConnectionOutput(result.data);
+        console.log(result.data);
+        window.alert(connectionOutput)
+        if(checked){
+          try{
+          const result = await axios.post("/api/db/postgres/add", {
+            
+            url: formData.url,
+            username: formData.username,
+            password: formData.password
+            })
+             setFormData({
+    url: '',
+    username: '',
+    password: ''
+  })
+
+          }catch(error){
+            console.error(error);
+          }
+        }
       });
-    }
+
+ 
+      
+      
     }; 
 
     const handleTables = (event) =>{
       event.preventDefault();
-      const check_url = formData.url
-      const check_username = formData.username
-      const check_password = formData.password
-      if(check_url.trim() === "" || check_username.trim() === "" || check_password.trim() === ""){
-        alert("Please specify values")
-      }else{
       axios.defaults.baseURL="http://localhost:3000"
       axios.get("/execute-spark-retrieve-job",{
         params: {
@@ -73,18 +84,18 @@ export default function Details() {
       })
       .then((result) => {
         console.log(result);
-        //window.prompt("Successfully retrieved tables")
+        window.prompt("Successfully retrieved tables")
       });
-    }
     }; 
 
   return (
     <div style={{ display: 'block', 
                   width: 700, 
-                  padding: 30 }}>
+                  padding: 30,  }}>
                     
       <h4>PostgreSQL</h4>
-      <Card style={{ width: '40rem' }}>
+      
+      <Card style={{ width: '40rem', backgroundColor: '#ffefd5', top: '50%', left: '100%'   }}>
       <Card.Img variant="top" src={PostgreSQL} alt="PostgreSQL" style={{width:250,height:250}}/>
       <Card.Body>
         <Card.Title>ABOUT</Card.Title>
@@ -115,24 +126,25 @@ export default function Details() {
 
 
 
-
-      <Form onSubmit={handleSubmit}> 
+   <h1 style={{left:'100%'}}>PostgreSQL Form</h1>
+    <Form onSubmit={handleSubmit} style={{ position: 'absolute', top: '140%', left: '50%',width: 400, transform: 'translate(-50%, -50%)' }}>
       <Form.Group>
           <Form.Label>URL:</Form.Label>
           <Form.Control type="text" name="url" value={formData.url} onChange={handleInputChange}
-                        placeholder="Enter PostgreSQL URL" />
+                        placeholder="Enter PostgreSQL URL" required/>
                         <br />
         </Form.Group>
         <Form.Group>
           <Form.Label>Enter your username:</Form.Label>
           <Form.Control type="text"  name="username" value={formData.username} onChange={handleInputChange}
-                        placeholder="Enter your your username "/>
+                        placeholder="Enter your your username " required/>
                         <br />
         </Form.Group>
         <Form.Group>
           <Form.Label>Enter your password:</Form.Label>
-          <Form.Control type="password"  name="password" value={formData.password} onChange={handleInputChange} placeholder="Enter your password" />
+          <Form.Control type="password"  name="password" value={formData.password} onChange={handleInputChange} placeholder="Enter your password" required />
           <br />
+          <Form.Check type="checkbox" label="Add Connection" checked={checked} onChange={() => setChecked(!checked)} />
         </Form.Group>
         <Button variant="primary" type="submit" onClick={handleClick}>
            Check Connection
@@ -141,6 +153,6 @@ export default function Details() {
         <br />
         <Button variant="primary" type="submit" onClick={handleTables}>Retrieve tables</Button>
       </Form>
-    </div>
-  );
+    </div>
+  );
 }
