@@ -112,12 +112,13 @@ app.get('/execute-spark-job-mysql', (req, res) => {
 });
 
 
+//Mysql Spark api for table retrieval
 app.get('/execute-spark-retrieve-job-mysql', (req, res) => {
 
   const {url,username,password} = req.query;
   // Define command and arguments
   const command = 'spark-submit';
-  const args = ['--class', 'com.mysql.retrieveTables', '--driver-class-path','/home/pranay/Downloads/mysql-connector-j-8.0.32.jar', '--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/mysql-retrieval_2.12-1.0.jar',url,username,password];
+  const args = ['--class', 'com.mysql.retrieveTables', '--driver-class-path','/home/pranay/Downloads/mysql-connector-j-8.0.32.jar', '--master', 'local[*]', '/home/pranay/SE/sample_projects/jars_updated/mysql-retrieval_2.12-1.0.jar',url,username,password];
 
   // Spawn child process to execute command
   const sparkJob = spawn(command, args);
@@ -125,7 +126,7 @@ app.get('/execute-spark-retrieve-job-mysql', (req, res) => {
   // Log output from child process
   sparkJob.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
-    res.send(`Spark job returned ${data}`);
+    res.send(`${data}`);
   });
 
 
