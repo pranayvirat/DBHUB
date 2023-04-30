@@ -143,5 +143,15 @@ router.get('/downloadMongo', (req, res) => {
     if (fs.existsSync(zipFilePath)) {
         fs.unlinkSync(zipFilePath);
     }
+     zip.writeZip(zipFilePath);
+    //zip.writeZip(zipFilePath);
+  
+    // set the response headers for downloading the file
+    res.setHeader('Content-Disposition', 'attachment; filename=download.zip');
+    res.setHeader('Content-Type', 'application/zip');
+  
+    // read the file and send it to the client
+    const filestream = fs.createReadStream(zipFilePath);
+    filestream.pipe(res);
 });
 module.exports = router;
