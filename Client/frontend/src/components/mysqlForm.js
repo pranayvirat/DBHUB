@@ -5,25 +5,87 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import MySQL from '.././logos/MySQL.png'
-import {useState} from 'react';
+import { useState } from 'react';
 import axios from 'axios'
+import { Table, Alert } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
+
+function RenderModal(mysqlData) {
+  const [show, setShow] = useState(true);
+  const {data} = mysqlData;
+
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        dialogClassName="modal-90w"
+        aria-labelledby="example-custom-modal-styling-title"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            MYSQL DATA
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+ <Table striped bordered hover style={{
+          marginTop: "30px",
+        }}>
+          <thead>
+            <tr>
+              {data && Object.keys(data[0]).map((key, index) => (
+                <th key={index}>{key}</th>
+              ))}
+            </tr>
+          </thead>
 
 
+          <tbody style={{
+
+          }}>
+            {/* <tr>
+              <td style={{
+                fontWeight: "600",
+                letterSpacing: "1px",
+                fontSize: "20px"
+              }}> Tables list</td>
+            </tr> */}
+            {data && data.map((row, index) => (
+              <tr key={index}>
+                {Object.keys(row).map((key, index) => (
+                <td key={index}>{row[key]} </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </Table> 
+
+
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+}
 
 export default function Details() {
   const [tables, setTables] = useState([]);
-  const [formData, setFormData] = useState ({
+  const [tableName, setTableName] = useState("");
+  const [formData, setFormData] = useState({
     url: '',
-    username:'',
-    password:''
-
+    username: '',
+    password: '',
+    tablename: ''
   });
+     
+  const [viewData, setViewData] = useState(false);
+
   const [checked, setChecked] = useState(false);
   const [resultB, setResult] = useState('');
+  const [mySQLData, setMySQLData] = useState([]);
 
-  const handleInputChange = (event) =>{
-    const {name, value } = event.target;
-    setFormData({ ...formData,[name]:value});
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (event) => {
@@ -32,59 +94,137 @@ export default function Details() {
   };
 
 
-  const handleClick =  (event) => {
+  const handleClick = (event) => {
     event.preventDefault();
     const check_url = formData.url
     const check_username = formData.username
     const check_password = formData.password
-    if(check_url.trim() === "" || check_username.trim() === "" || check_password.trim() === ""){
+    if (check_url.trim() === "" || check_username.trim() === "" || check_password.trim() === "") {
       alert("Please specify values")
-    }else{
-    
-    axios.defaults.baseURL="http://localhost:3000"
-      axios
-      .get("/execute-spark-job-mysql", {
-        params: {
-          url: formData.url,
-          username: formData.username,
-          password: formData.password,
-        },
-      })
-      .then((result) => {
-        setResult(result.data);
-        console.log(resultB);
-        window.alert(resultB)
-      });
-    }
-    }; 
+    } else {
 
-    const HandleTables = (event) =>{
-      event.preventDefault();
-      const check_url = formData.url
-      const check_username = formData.username
-      const check_password = formData.password
-     
-      if(check_url.trim() === "" || check_username.trim() === "" || check_password.trim() === ""){
-        alert("Please specify values")
-      }else{
-      axios.defaults.baseURL="http://localhost:3000"
-      axios.get("/execute-spark-retrieve-job-mysql",{
+      axios.defaults.baseURL = "http://54.236.43.43:3000"
+      axios
+        .get("/execute-spark-job-mysql", {
+          params: {
+            url: formData.url,
+            username: formData.username,
+            password: formData.password,
+          },
+        })
+        .then(async (result) => {
+          setResult(result.data);
+          console.log(resultB);
+          if (checked) {
+            try {
+              const result = await axios.post("/api/db/mysql/add", {
+
+                url: formData.url,
+                username: formData.username,
+                password: formData.password
+              })
+              setFormData({
+                url: '',
+                username: '',
+                password: ''
+              })
+
+            } catch (error) {
+              console.error(error);
+            }
+          }
+        });
+    }
+  };
+
+  const HandleTables = (event) => {
+    event.preventDefault();
+    const check_url = formData.url
+    const check_username = formData.username
+    const check_password = formData.password
+
+    if (check_url.trim() === "" || check_username.trim() === "" || check_password.trim() === "") {
+      alert("Please specify values")
+    } else {
+      axios.defaults.baseURL = "http://54.236.43.43:3000"
+      axios.get("/execute-spark-retrieve-job-mysql", {
         params: {
           url: formData.url,
           username: formData.username,
           password: formData.password,
         },
       })
-      .then((result) => {
-        console.log(result);
-        setTables(result.data);
-        console.log(tables);
-        
-      });
+        .then((result) => {
+          console.log(result);
+          setTables(result.data);
+          console.log(tables);
+
+        });
     }
-    }; 
-    
-  return(
+  };
+
+  const GetData = (event) => {
+
+    event.preventDefault();
+    const check_url = formData.url
+    const check_username = formData.username
+    const check_password = formData.password
+    const check_tablename = formData.tablename
+    if (check_url.trim() === "" || check_username.trim() === "" || check_password.trim() === "" || check_tablename.trim() === "") {
+      alert("Please specify values")
+    } else {
+      axios.defaults.baseURL = "http://54.236.43.43:3000"
+      axios.get("/api/db/mysqlData", {
+        params: {
+          url: formData.url,
+          username: formData.username,
+          password: formData.password,
+          table: formData.tablename,
+          fileType: type,
+        },
+      })
+        .then((result) => {
+
+          const parsedData = JSON.parse(result.data.output);
+
+          setMySQLData(parsedData);
+          setViewData(true);
+          console.log(result.data);
+        
+
+        });
+    }
+  };
+
+  const handleClick1 = async (event) => {
+    try {
+      event.preventDefault();
+      const response = await axios.get('http://54.236.43.43:3000/api/db/downloadMySQL',{
+       params:{
+         fileType: type,
+       },
+       responseType: 'blob',
+      });
+     
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'data.zip');
+      document.body.appendChild(link);
+      link.click();
+      console.log(type)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  const [showAlert, setShowAlert] = useState(true);
+  const [type, setType] = useState('noFile');
+
+  const handleCloseAlert = () => setShowAlert(false);
+
+  return (
     <div style={{
       display: 'flex',
       // width: 700,
@@ -133,8 +273,12 @@ export default function Details() {
           </ListGroup>
         </Card>
       </div>
-    <br />
-    <Form onSubmit={handleSubmit} style={{
+      <div style={{
+        margin: "20px"
+      }}>
+        <h1>MySQL Form</h1>
+      </div>
+      <Form onSubmit={handleSubmit} style={{
         border: "1px solid grey",
         padding: "20px",
         borderRadius: "8px",
@@ -219,14 +363,8 @@ export default function Details() {
           display: "flex",
           justifyContent: "end",
           padding: "10px"
-        }}></div>
-
-<div style={{
-          display: "flex",
-          justifyContent: "end",
-          padding: "10px"
         }}>
-        <Button variant="primary" type="submit" onClick={handleClick} style={{
+          <Button variant="primary" type="submit" onClick={handleClick} style={{
             marginRight: "10px",
             backgroundColor: "#00D100",
             border: "none",
