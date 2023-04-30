@@ -11,6 +11,61 @@ import { Table, Alert } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 
 
+function RenderModal(mysqlData) {
+  const [show, setShow] = useState(true);
+  const {data} = mysqlData;
+
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        dialogClassName="modal-90w"
+        aria-labelledby="example-custom-modal-styling-title"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Postgres DATA
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+ <Table striped bordered hover style={{
+          marginTop: "30px",
+        }}>
+          <thead>
+            <tr>
+              {data && Object.keys(data[0]).map((key, index) => (
+                <th key={index}>{key}</th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody style={{
+
+          }}>
+            {/* <tr>
+              <td style={{
+                fontWeight: "600",
+                letterSpacing: "1px",
+                fontSize: "20px"
+              }}> Tables list</td>
+            </tr> */}
+            {data && data.map((row, index) => (
+              <tr key={index}>
+                {Object.keys(row).map((key, index) => (
+                <td key={index}>{row[key]} </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </Table> 
+
+
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+}
 
 
 export default function Details() {
