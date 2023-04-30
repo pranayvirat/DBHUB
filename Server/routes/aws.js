@@ -17,4 +17,36 @@ router.get('/awsRetrieval', (req, res) => {
   
    // Store output from child process
    let output = '';
+    // Handle stdout data from child process
+   sparkJob.stdout.on('data', (data) => {
+     const message = data.toString();
+     if(!message.includes("loading settings")){
+ 
+     
+     console.log(`stdout: ${data}`);
+     output += message;
+   }
+   });
+
+   sparkJob.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+   res.setHeader('Pragma', 'no-cache');
+   res.setHeader('Expires', '0');
+  
+    // Handle child process exit
+    sparkJob.on('exit', (code) => {
+        if (code !== 0) {
+          res.status(500).json({
+            message: `Spark job failed with exit code ${code}`,
+            output: output
+          });
+        } else {
+          res.json({
+            message: 'Spark job completed successfully',
+            output: output
+          });
+        }
+      });
   });
