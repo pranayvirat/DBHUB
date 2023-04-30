@@ -92,15 +92,16 @@ app.get('/execute-spark-job-mysql', (req, res) => {
   // Define command and arguments
   const command = 'spark-submit';
   const {url, username, password} = req.query;
-  const args = ['--class', 'com.mysql.checkConnection', '--driver-class-path','/home/pranay/Downloads/mysql-connector-j-8.0.32.jar', '--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/mysql-connection_2.12-1.0.jar',url,username,password];
-
+  const args = ['--class', 'com.mysql.checkConnection', '--driver-class-path','./jars/mysql-connector-j-8.0.32.jar', '--master', 'local[*]', './jars/mysql-connection_2.12-1.0.jar',url,username,password];
+  let stdoutData = '';
   // Spawn child process to execute command
   const sparkJob = spawn(command, args);
 
   // Log output from child process
   sparkJob.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
-    res.send(`Spark job returned${data}`);
+    stdoutData += data.toString(); 
+    res.send(stdoutData);
   });
 
   // Handle child process exit
