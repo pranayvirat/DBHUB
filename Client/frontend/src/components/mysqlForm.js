@@ -6,17 +6,20 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import MySQL from '.././logos/MySQL.png'
 import {useState} from 'react';
-import axios from 'axios';
+import axios from 'axios'
 
 
 
 export default function Details() {
+  const [tables, setTables] = useState([]);
   const [formData, setFormData] = useState ({
     url: '',
     username:'',
     password:''
 
   });
+  const [checked, setChecked] = useState(false);
+  const [resultB, setResult] = useState('');
 
   const handleInputChange = (event) =>{
     const {name, value } = event.target;
@@ -27,6 +30,8 @@ export default function Details() {
     event.preventDefault();
     console.log('URL value:', formData.url);
   };
+
+
   const handleClick =  (event) => {
     event.preventDefault();
     const check_url = formData.url
@@ -46,17 +51,19 @@ export default function Details() {
         },
       })
       .then((result) => {
-        console.log(result);
-        //window.prompt("Connection Successful")
+        setResult(result.data);
+        console.log(resultB);
+        window.alert(resultB)
       });
     }
     }; 
 
-    const handleTables = (event) =>{
+    const HandleTables = (event) =>{
       event.preventDefault();
       const check_url = formData.url
       const check_username = formData.username
       const check_password = formData.password
+     
       if(check_url.trim() === "" || check_username.trim() === "" || check_password.trim() === ""){
         alert("Please specify values")
       }else{
@@ -70,11 +77,13 @@ export default function Details() {
       })
       .then((result) => {
         console.log(result);
-        //window.prompt("Successfully retrieved tables")
+        setTables(result.data);
+        console.log(tables);
+        
       });
     }
     }; 
-
+    
   return(
     <div style={{ display: 'block', 
                   width: 700, 
@@ -120,16 +129,26 @@ export default function Details() {
         </Form.Group>
         <Form.Group>
           <Form.Label>Enter your password:</Form.Label>
-          <Form.Control type="password" name="password" required value={formData.password} onChange={handleInputChange}  placeholder="Enter your password"  />
+          <Form.Control type="password" name="password" value={formData.password} onChange={handleInputChange}  placeholder="Enter your password" required/>
           <br />
+          <Form.Check type="checkbox" label="Add Connection" checked={checked} onChange={() => setChecked(!checked)} />
         </Form.Group>
         <Button variant="primary"  type="submit" onClick={handleClick}>
            Check Connection
         </Button>
         <br />
         <br />
-        <Button variant="primary" type="submit" onClick={handleTables}>Retrieve tables</Button>
+        <Button variant="secondary" type="submit" onClick={HandleTables}>Retrieve tables</Button>
       </Form>
+      <div>
+      <h1>Table List</h1>
+      <ul>
+        {tables.map(table => (
+          <li key={table.table_name}>{table.table_name}</li>
+        ))}
+      </ul>
+
+    </div>
     </div>
   );
 }
