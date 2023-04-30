@@ -29,14 +29,7 @@ app.use(express.static(path.join(__dirname, "public")));
 connection();
 
 app.use("/api/mongo", mongoRouter);
-
-
-
-
-
-
-
-
+app.use("/api/aws", awsConnection);
 app.get('/execute-spark-job', (req, res) => {
   // Define command and arguments
   const command = 'spark-submit';
