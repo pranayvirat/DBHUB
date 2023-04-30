@@ -21,7 +21,15 @@ router.post('/postgres/add',async (req,res)=>{
     }
 
 })
-
+//Route to fetch postgresData
+router.get('/postgres/getDetails', async(req,res)=>{
+    try{
+        const wholePostgresData = await postgresModel.find({});
+        res.status(200).json(wholePostgresData);
+    }catch(error){
+        res.json(error);
+    }
+})
  // -------------------------------------------------------------- Routes for Postgres Data Retrieval ---------------------------------------------------------------------------
 
  router.get('/postgresData', (req, res) => {
