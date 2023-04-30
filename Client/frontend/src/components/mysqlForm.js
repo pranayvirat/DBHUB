@@ -220,12 +220,55 @@ export default function Details() {
           justifyContent: "end",
           padding: "10px"
         }}></div>
-        <Button variant="primary"  type="submit" onClick={handleClick}>
-           Check Connection
-        </Button>
-        <br />
-        <br />
-        <Button variant="secondary" type="submit" onClick={HandleTables}>Retrieve tables</Button>
+
+<div style={{
+          display: "flex",
+          justifyContent: "end",
+          padding: "10px"
+        }}>
+        <Button variant="primary" type="submit" onClick={handleClick} style={{
+            marginRight: "10px",
+            backgroundColor: "#00D100",
+            border: "none",
+            color: "white"
+
+          }}>
+            Check Connection
+          </Button>
+          <div className="d-flex justify-content-end">
+            {resultB && (
+              <Alert variant="success" style={{
+                width: "100%",
+                textAlign: "top",
+                margin: "0 auto"
+              }} show={showAlert} onClose={handleCloseAlert} dismissible>
+                {resultB}
+              </Alert>
+            )}
+          </div>
+          <Button variant="secondary" type="submit" onClick={HandleTables} style={{
+            backgroundColor: "blue",
+            color: "white"
+
+          }}>Retrieve tables</Button>
+          <Button variant="secondary" type="submit" onClick={GetData} style={{
+            backgroundColor: "darkblue",
+            color: "white",
+            marginLeft: "10px"
+
+          }}>Retrieve Data</Button>
+          <Button variant="secondary" type="submit" onClick={handleClick1} style={{
+            backgroundColor: "black",
+            color: "white",
+            marginLeft: "10px"
+
+          }}>Download Data</Button>
+        </div>
+      <div>
+      {
+        viewData && <RenderModal data={mySQLData}/>
+      }
+      </div>
       </Form>
       <div>
       <h1>Table List</h1>
