@@ -92,4 +92,18 @@ router.delete('/postgres/getDetails/:id', async(req,res)=>{
         }
       });
   });
+// ------------------------------------------------------- Route to download Postgres Data -----------------
+
+router.get('/downloadPostgres', (req, res) => {
+    const {fileType} = req.query
+    const type = fileType;
+    const folderPath = `/home/pranay/SE/sample_projects/DBHUB/DBHUB_Final/Server/downloadedFiles/postgres/data.${type}`; // path of the folder to be zipped
+    const zipFilePath =   `/home/pranay/SE/sample_projects/DBHUB/DBHUB_Final/Server/downloadedFiles/postgres/data.zip` // path where the zip file will be stored
+  
+    // create a new zip object
+    const zip = new AdmZip();
+  
+    // add the contents of the folder to the zip object
+    zip.addLocalFolder(folderPath);
+    });
 module.exports = router;
