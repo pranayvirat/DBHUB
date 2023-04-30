@@ -21,7 +21,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use("/api/mongo", mongoRouter);
 
 app.get('/execute-spark-job-mysql', (req, res) => {
   // Define command and arguments
