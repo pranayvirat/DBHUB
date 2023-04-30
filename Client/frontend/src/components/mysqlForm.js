@@ -90,29 +90,35 @@ export default function Details() {
                   padding: 30 }}>
                     
       <h4>MySQL</h4>
-      <Card style={{ width: '40rem' }}>
-      <Card.Img variant="top" src={MySQL} alt="MySQL" style={{width:250, height:250}} />
-      <Card.Body>
-        <Card.Title>ABOUT</Card.Title>
-        <Card.Text>
-        MySQL is an open-source relational database management system (RDBMS) that uses Structured Query Language (SQL). It was created in 1995 and is now owned by Oracle Corporation. MySQL is widely used in web applications and is the most popular open-source database system in the world.
-        <br />
-        Some key features of MySQL include:
-        <br />
-        <ul>
-            <li>Support for multiple platforms, including Windows, Linux, and macOS</li>
-            <li>Scalability, with the ability to handle databases ranging from small to large</li>
-            <li>High performance and fast data processing</li>
-            <li>Data security, including encryption and access control</li>
-            <li>Support for a wide range of programming languages, including PHP, Python, and Java</li>
-        </ul>
-        <p>MySQL is also known for its ease of use and flexibility, making it a popular choice for many different types of applications, from small websites to large enterprise systems.</p>
-        </Card.Text>
-      </Card.Body>
-      <ListGroup className="list-group-flush">
-        <ListGroup.Item><a href="https://www.mysql.com/" >Learn More</a></ListGroup.Item>
-      </ListGroup>
-    </Card>
+      <Card style={{ width: '60rem', backgroundColor: '#C3EEFA' }}>
+          <Card.Img variant="top" src={MySQL} alt="MySQL" style={{ width: 250, height: 250 }} />
+          <Card.Body>
+            <Card.Title>ABOUT</Card.Title>
+            <Card.Text>
+              MySQL is an open-source relational database management system (RDBMS) that uses Structured Query Language (SQL). It was created in 1995 and is now owned by Oracle Corporation. MySQL is widely used in web applications and is the most popular open-source database system in the world.
+              <br />
+              Some key features of MySQL include:
+              <br />
+              <ul>
+                <li>Support for multiple platforms, including Windows, Linux, and macOS</li>
+                <li>Scalability, with the ability to handle databases ranging from small to large</li>
+                <li>High performance and fast data processing</li>
+                <li>Data security, including encryption and access control</li>
+                <li>Support for a wide range of programming languages, including PHP, Python, and Java</li>
+              </ul>
+
+              <h4>Parameters</h4>
+              <ul>
+                <li><b>URL:</b><p>JDBC URL: The JDBC URL for MySQL usually looks like this: <b>jdbc:mysql://54.236.43.43:3306/dbname </b>, where 54.236.43.43 is the name of the server where MySQL is running, 3306 is the port number, and dbname is the name of the database you want to connect to. You will need to replace 54.236.43.43 and dbname with the appropriate values for your MySQL setup.</p></li>
+                <li><b>Username: </b><p>The username you use to connect to MySQL will depend on your specific MySQL setup. By default, the username is root, but it may be different if you are connecting to a MySQL server that is managed by a third party (e.g., a web host).</p></li>
+                <li><b>Password: </b><p>You will need to provide the password associated with the MySQL user you are connecting as.</p></li>
+              </ul>
+            </Card.Text>
+          </Card.Body>
+          <ListGroup className="list-group-flush">
+            <ListGroup.Item><a href="https://www.mysql.com/" >Learn More</a></ListGroup.Item>
+          </ListGroup>
+        </Card>
     <br />
     <Form onSubmit={handleSubmit}>
       <Form.Group>
