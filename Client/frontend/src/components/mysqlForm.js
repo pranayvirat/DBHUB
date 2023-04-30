@@ -270,15 +270,35 @@ export default function Details() {
       }
       </div>
       </Form>
-      <div>
-      <h1>Table List</h1>
-      <ul>
-        {tables.map(table => (
-          <li key={table.table_name}>{table.table_name}</li>
-        ))}
-      </ul>
+      <div style={{
+        display: "grid",
+        textAlign: "center",
+        width: "70%",
+        alignItems: "center",
+        margin: "0 auto"
+      }}>
+        <Table striped bordered hover style={{
+          marginTop: "30px",
+        }}>
+          <tbody style={{
 
-    </div>
+          }}>
+            <tr>
+              <td style={{
+                fontWeight: "600",
+                letterSpacing: "1px",
+                fontSize: "20px"
+              }}> Tables list</td>
+            </tr>
+            {tables.map((row, index) => (
+              <tr key={index}>
+                <td>{row.table_name}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+     
     </div>
   );
 }
