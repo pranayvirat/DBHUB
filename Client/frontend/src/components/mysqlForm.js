@@ -176,6 +176,50 @@ export default function Details() {
           <br />
           <Form.Check type="checkbox" label="Add Connection" checked={checked} onChange={() => setChecked(!checked)} />
         </Form.Group>
+        <div style={{
+          display: "flex",
+          padding: "10px",
+          flexDirection: 'row',
+      alignItems: 'left',
+      justifyContent: 'left',
+          
+       }}>
+         <div style={{
+            display: "flex",
+            padding: "10px",
+            flexDirection: 'row',
+      alignItems: 'left',
+      justifyContent: 'left',
+      
+         }}>
+        <Form.Check type="checkbox" label="JSON"  onChange={() => setType("json")} />
+        </div>
+        <div style={{
+            display: "flex",
+            padding: "10px",
+            flexDirection: 'row',
+      alignItems: 'left',
+      justifyContent: 'left',
+      
+         }}>
+        <Form.Check type="checkbox" label="Parquet" onChange={() => setType("parquet")} />
+        </div >
+        <div style={{
+            display: "flex",
+            padding: "10px",
+            flexDirection: 'row',
+      alignItems: 'left',
+      justifyContent: 'left',
+      
+         }}>
+        <Form.Check type="checkbox" label="CSV" onChange={() => setType("csv")} />
+        </div>
+        </div>
+        <div style={{
+          display: "flex",
+          justifyContent: "end",
+          padding: "10px"
+        }}></div>
         <Button variant="primary"  type="submit" onClick={handleClick}>
            Check Connection
         </Button>
