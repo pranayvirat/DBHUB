@@ -23,28 +23,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/mongo", mongoRouter);
 
-app.get('/execute-spark-job-mysql', (req, res) => {
-  // Define command and arguments
-  const command = 'spark-submit';
-  const {url, username, password} = req.query;
-  const args = ['--class', 'com.mysql.checkConnection', '--driver-class-path','/home/pranay/Downloads/mysql-connector-j-8.0.32.jar', '--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/mysql-connection_2.12-1.0.jar',url,username,password];
-
-  // Spawn child process to execute command
-  const sparkJob = spawn(command, args);
-
-  // Log output from child process
-  sparkJob.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-    res.send(`Spark job returned${data}`);
-  });
-
-  // Handle child process exit
-  sparkJob.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-    
-  });
-});
-
 
 
 
@@ -108,6 +86,28 @@ app.get('/execute-spark-retrieve-job', (req, res) => {
     console.log(`child process exited with code ${code}`);
     
   });
+});
+
+app.get('/execute-spark-job-mysql', (req, res) => {
+  // Define command and arguments
+  const command = 'spark-submit';
+  const {url, username, password} = req.query;
+  const args = ['--class', 'com.mysql.checkConnection', '--driver-class-path','/home/pranay/Downloads/mysql-connector-j-8.0.32.jar', '--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/mysql-connection_2.12-1.0.jar',url,username,password];
+
+  // Spawn child process to execute command
+  const sparkJob = spawn(command, args);
+
+  // Log output from child process
+  sparkJob.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+    res.send(`Spark job returned${data}`);
+  });
+
+  // Handle child process exit
+  sparkJob.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+    
+  });
 });
 
 
