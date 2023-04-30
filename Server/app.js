@@ -83,15 +83,16 @@ app.get('/execute-spark-retrieve-job', (req, res) => {
   const {url,username,password} = req.query;
   // Define command and arguments
   const command = 'spark-submit';
-  const args = ['--class', 'com.jdbc.retrieveTables', '--driver-class-path','/opt/spark/postgresql-42.3.7.jar', '--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/retrievetables_2.12-0.1.0-SNAPSHOT.jar',url,username,password];
-
+  const args = ['--class', 'com.jdbc.Postgres.retrieveTables', '--driver-class-path','./jars/postgresql-42.3.7.jar', '--master', 'local[*]', './jars/postgres_2.12-0.1.0-SNAPSHOT.jar',url,username,password];
+  let stdoutData = '';
   // Spawn child process to execute command
   const sparkJob = spawn(command, args);
 
   // Log output from child process
   sparkJob.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
-    res.send(`Spark job returned ${data}`);
+    stdoutData += data.toString(); 
+    res.send(stdoutData);
   });
 
 
@@ -99,8 +100,8 @@ app.get('/execute-spark-retrieve-job', (req, res) => {
   // Handle child process exit
   sparkJob.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
-    
-  });
+    
+  });
 });
 
 
