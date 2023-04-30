@@ -159,6 +159,9 @@ app.get('/execute-spark-retrieve-job', (req, res) => {
   });
 });
 */
+// All Spark api for table retrieval
+app.get('/execute-spark-job-all', (req, res) => {
+});
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
