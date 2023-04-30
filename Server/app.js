@@ -161,6 +161,21 @@ app.get('/execute-spark-retrieve-job', (req, res) => {
 */
 // All Spark api for table retrieval
 app.get('/execute-spark-job-all', (req, res) => {
+// Define command and arguments
+  const command = 'spark-submit';
+  const connections = {
+    "postgres":{
+      "url":"",
+      "username":"",
+      "password":""
+    },
+    "mysql":{
+      "url":"",
+      "username":"",
+      "password":""
+    }
+  }
+ const {table,file} = req.query;
 });
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
