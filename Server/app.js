@@ -196,6 +196,17 @@ app.get('/execute-spark-job-all', (req, res) => {
     output += message;
   }
   });
+  sparkJob.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  // Handle error data from child process
+  sparkJob.stderr.on('data', (data) => {
+    //console.error(`stderr: ${data}`);
+  });
+
 });
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
