@@ -125,5 +125,23 @@ router.get('/downloadPostgres', (req, res) => {
     });
 //-------------------------------------------------------------------Route to Download MongoDB Data ---------------------------------------------
 router.get('/downloadMongo', (req, res) => {
+     const {fileType} = req.query
+    const type = fileType;
+    const folderPath = `/home/pranay/SE/sample_projects/DBHUB/DBHUB_Final/Server/downloadedFiles/mongo/data.${type}`; // path of the folder to be zipped
+    const zipFilePath =   `/home/pranay/SE/sample_projects/DBHUB/DBHUB_Final/Server/downloadedFiles/mongo/data.zip` // path where the zip file will be stored
+  
+    // create a new zip object
+    const zip = new AdmZip();
+  
+    // add the contents of the folder to the zip object
+    zip.addLocalFolder(folderPath);
+  
+    // write the zip file to disk
+    //Overwrite the zip file if it already exists
+    //Delete the zip file if it already exists
+    fs.Dir  = zipFilePath;
+    if (fs.existsSync(zipFilePath)) {
+        fs.unlinkSync(zipFilePath);
+    }
 });
 module.exports = router;
