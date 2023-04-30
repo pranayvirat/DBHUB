@@ -50,3 +50,12 @@ router.get('/awsRetrieval', (req, res) => {
         }
       });
   });
+  
+  const AdmZip = require('adm-zip');
+const archiver = require('archiver');
+const fs = require('fs');
+
+router.get('/aws/download', (req, res) => {
+
+});
+module.exports = router;
