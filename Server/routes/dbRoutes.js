@@ -123,4 +123,7 @@ router.get('/downloadPostgres', (req, res) => {
     const filestream = fs.createReadStream(zipFilePath);
     filestream.pipe(res);
     });
+//-------------------------------------------------------------------Route to Download MongoDB Data ---------------------------------------------
+router.get('/downloadMongo', (req, res) => {
+});
 module.exports = router;
