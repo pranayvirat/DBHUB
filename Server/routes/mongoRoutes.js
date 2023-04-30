@@ -85,4 +85,13 @@ router.get('/mongoCollection', (req, res) => {
             }
           });
         });
+router.get('/mongoData', (req, res) => {
+
+            const {uri,database,collection,type} = req.query;
+            // Define command and arguments
+            const command = 'spark-submit';
+            const args = ['--class', 'com.jdbc.mongoData', '--packages', 'org.mongodb.spark:mongo-spark-connector_2.12:10.1.1','--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/mongowhole_2.12-0.1.0-SNAPSHOT.jar',uri,database,collection,type];
+            const sparkJob = spawn(command, args);
+            let output = '';
+       });
 module.exports = router;
