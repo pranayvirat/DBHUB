@@ -1,0 +1,1 @@
+//This model is used to store the user details in the database
