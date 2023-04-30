@@ -99,7 +99,39 @@ export default function Details() {
         console.log(tables);
       });
   };
- 
+  const GetData = (event) => {
+
+    event.preventDefault();
+    const check_url = formData.url
+    const check_username = formData.username
+    const check_password = formData.password
+    const check_tablename = formData.tablename
+    if (check_url.trim() === "" || check_username.trim() === "" || check_password.trim() === "" || check_tablename.trim() === "") {
+      alert("Please specify values")
+    } else {
+      axios.defaults.baseURL = "http://54.236.43.43:3000"
+      axios.get("/api/db/postgresData", {
+        params: {
+          url: formData.url,
+          username: formData.username,
+          password: formData.password,
+          table: formData.tablename,
+          fileType: type
+        },
+      })
+        .then((result) => {
+
+          const parsedData = JSON.parse(result.data.output);
+
+          setPsqlData(parsedData);
+          setViewData(true);
+          console.log(result.data);
+        
+
+        });
+    }
+  };
+
   const handleClick1 = async (event) => {
     try {
       event.preventDefault();
