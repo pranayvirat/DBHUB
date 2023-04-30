@@ -105,5 +105,15 @@ router.get('/downloadPostgres', (req, res) => {
   
     // add the contents of the folder to the zip object
     zip.addLocalFolder(folderPath);
+    // write the zip file to disk
+    //Overwrite the zip file if it already exists
+    //Delete the zip file if it already exists
+    fs.Dir  = zipFilePath;
+    if (fs.existsSync(zipFilePath)) {
+        fs.unlinkSync(zipFilePath);
+    }
+
+    zip.writeZip(zipFilePath);
+    //zip.writeZip(zipFilePath);
     });
 module.exports = router;
