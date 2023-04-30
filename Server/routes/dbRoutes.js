@@ -39,7 +39,15 @@ router.put('/postgres/getDetails/:id', async(req,res)=>{
         res.json(error);
     }
 })
-
+//Route to delete postgresData
+router.delete('/postgres/getDetails/:id', async(req,res)=>{
+    try{
+        const deletePostgresDetails = await postgresModel.findByIdAndDelete(req.params.id);
+        res.status(200).json("Postgres Connection details deleted successfully");
+    }catch(error){
+        res.json(error);
+    }
+})
  // -------------------------------------------------------------- Routes for Postgres Data Retrieval ---------------------------------------------------------------------------
 
  router.get('/postgresData', (req, res) => {
