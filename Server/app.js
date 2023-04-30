@@ -206,7 +206,20 @@ app.get('/execute-spark-job-all', (req, res) => {
   sparkJob.stderr.on('data', (data) => {
     //console.error(`stderr: ${data}`);
   });
-
+ // When child process exits, check if there were any errors
+  sparkJob.on('exit', (code) => {
+    if (code !== 0) {
+      res.status(500).json({
+        message: `Spark job failed with exit code ${code}`,
+        output: output
+      });
+    } else {
+      res.json({
+        message: 'Spark job completed successfully',
+        output: output
+      });
+    }
+  });
 });
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
