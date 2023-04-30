@@ -4,8 +4,12 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
-var indexRouter = require("./routes/index");
+var authsRouter = require("./routes/auth");
 var usersRouter = require("./routes/users");
+const dbRouter = require("./routes/dbRoutes");
+const mongoRouter = require("./routes/mongoRoutes");
+const connection = require("./db");
+const awsConnection = require("./routes/aws");
 
 var app = express();
 
