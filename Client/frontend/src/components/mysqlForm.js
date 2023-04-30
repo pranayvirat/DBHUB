@@ -85,12 +85,25 @@ export default function Details() {
     }; 
     
   return(
-    <div style={{ display: 'block', 
-                  width: 700, 
-                  padding: 30 }}>
-                    
-      <h4>MySQL</h4>
-      <Card style={{ width: '60rem', backgroundColor: '#C3EEFA' }}>
+    <div style={{
+      display: 'flex',
+      // width: 700,
+      // padding: 30
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#FEFEFA',
+    }}>
+      <div style={{
+        display: 'block',
+        margin: 30,
+      }}>
+        <h4 style={{
+          display: 'flex',
+          justifyContent: 'start',
+        }}>MySQL</h4>
+
+        <Card style={{ width: '60rem', backgroundColor: '#C3EEFA' }}>
           <Card.Img variant="top" src={MySQL} alt="MySQL" style={{ width: 250, height: 250 }} />
           <Card.Body>
             <Card.Title>ABOUT</Card.Title>
@@ -119,6 +132,7 @@ export default function Details() {
             <ListGroup.Item><a href="https://www.mysql.com/" >Learn More</a></ListGroup.Item>
           </ListGroup>
         </Card>
+      </div>
     <br />
     <Form onSubmit={handleSubmit}>
       <Form.Group>
