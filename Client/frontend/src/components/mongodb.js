@@ -108,6 +108,7 @@ export default function MongoDB() {
     console.log('URL value:', formData.url);
   };
 
+  //Handler for CheckConnection button
   const handleClick = (event) => {
     event.preventDefault();
     console.log('URL value:', formData.uri);
@@ -132,7 +133,7 @@ export default function MongoDB() {
 
   const handleCloseAlert = () => setShowAlert(false);
 
-
+//Handler for get tables button
   const handleTables = (event) => {
     event.preventDefault();
     axios.defaults.baseURL = "http://localhost:3000"
@@ -150,6 +151,7 @@ export default function MongoDB() {
         //console.log(tables);
       });
   };
+  //Handler for getData button
   const GetData = (event) => {
 
     event.preventDefault();
@@ -175,6 +177,7 @@ export default function MongoDB() {
         });
     
   };
+  //Handler for download data
   const handleClick1 = async (event) => {
     try {
       event.preventDefault();
