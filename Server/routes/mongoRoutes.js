@@ -93,5 +93,16 @@ router.get('/mongoData', (req, res) => {
             const args = ['--class', 'com.jdbc.mongoData', '--packages', 'org.mongodb.spark:mongo-spark-connector_2.12:10.1.1','--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/mongowhole_2.12-0.1.0-SNAPSHOT.jar',uri,database,collection,type];
             const sparkJob = spawn(command, args);
             let output = '';
+                // Handle stdout data from child process
+            sparkJob.stdout.on('data', (data) => {
+              const message = data.toString();
+              if(!message.includes("loading settings")){
+          
+              
+              console.log(`stdout: ${data}`);
+              output += message;
+            }
+            });
+          
        });
 module.exports = router;
