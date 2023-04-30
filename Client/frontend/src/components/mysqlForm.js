@@ -134,22 +134,45 @@ export default function Details() {
         </Card>
       </div>
     <br />
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
-          <Form.Label>URL:</Form.Label>
+    <Form onSubmit={handleSubmit} style={{
+        border: "1px solid grey",
+        padding: "20px",
+        borderRadius: "8px",
+        width: "50rem",
+      }}>
+        <Form.Group>
+          <Form.Label style={{
+            fontWeight: "bold",
+            letterSpacing: "1px",
+          }}>URL:</Form.Label>
           <Form.Control type="text" name="url" value={formData.url} onChange={handleInputChange}
-                        placeholder="Enter MySQL URL" required/>
-                        <br />
+            placeholder="Enter MySQL URL" required />
+          <br />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Enter your username:</Form.Label>
+          <Form.Label style={{
+            fontWeight: "bold",
+            letterSpacing: "1px",
+          }}>Enter your username:</Form.Label>
           <Form.Control type="text" name="username" value={formData.username} onChange={handleInputChange}
-                        placeholder="Enter your your username " required/>
-                        <br />
+            placeholder="Enter your your username " required />
+          <br />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Enter your password:</Form.Label>
-          <Form.Control type="password" name="password" value={formData.password} onChange={handleInputChange}  placeholder="Enter your password" required/>
+          <Form.Label style={{
+            fontWeight: "bold",
+            letterSpacing: "1px",
+          }}>Enter your password:</Form.Label>
+          <Form.Control type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="Enter your password" required />
+          <br />
+          
+        </Form.Group>
+        <Form.Group>
+          <Form.Label style={{
+            fontWeight: "bold",
+            letterSpacing: "1px",
+          }}>Enter table name:</Form.Label>
+          <Form.Control type="text" name="tablename" value={formData.tablename} onChange={handleInputChange} placeholder="Enter table name" required />
           <br />
           <Form.Check type="checkbox" label="Add Connection" checked={checked} onChange={() => setChecked(!checked)} />
         </Form.Group>
