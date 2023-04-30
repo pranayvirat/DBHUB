@@ -30,6 +30,16 @@ router.get('/postgres/getDetails', async(req,res)=>{
         res.json(error);
     }
 })
+//Route to update postgreData
+router.put('/postgres/getDetails/:id', async(req,res)=>{
+    try{
+    const updatePostgresDetails = await postgresModel.findByIdAndUpdate(req.params.id, {$set: req.body});
+    res.status(200).json("Postgres Connection details updated");
+    }catch(error){
+        res.json(error);
+    }
+})
+
  // -------------------------------------------------------------- Routes for Postgres Data Retrieval ---------------------------------------------------------------------------
 
  router.get('/postgresData', (req, res) => {
