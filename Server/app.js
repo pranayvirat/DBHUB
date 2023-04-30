@@ -227,9 +227,12 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
-app.use("/", indexRouter);
-
 app.use("/users", usersRouter);
+
+app.use("/api/auth", authsRouter);
+
+
+app.use("/api/db", dbRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
