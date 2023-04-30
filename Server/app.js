@@ -176,6 +176,26 @@ app.get('/execute-spark-job-all', (req, res) => {
     }
   }
  const {table,file} = req.query;
+ console.log(file)
+  //const input1 = '{"postgres":{"url":"jdbc:postgresql://54.236.43.43:5432/postgres","username": "postgres","password":"password"},"mysql":{"url":"jdbc:mysql://54.236.43.43:3307/MySQL","username":"root","password":"root"}}';
+  const args = ['--class', 'com.jdbc.getAll','--packages','org.mongodb.spark:mongo-spark-connector_2.12:10.1.1', '--driver-class-path', './jars/mysql-connector-j-8.0.32.jar:./jars/postgresql-42.3.7.jar', '--master', 'local[*]', './jars/getall_2.12-0.1.0-SNAPSHOT.jar',table,file];
+
+  // Spawn child process to execute command
+  const sparkJob = spawn(command, args);
+
+  // Store output from child process
+  let output = '';
+
+  // Handle stdout data from child process
+  sparkJob.stdout.on('data', (data) => {
+    const message = data.toString();
+    if(!message.includes("loading settings")){
+
+    
+    console.log(`stdout: ${data}`);
+    output += message;
+  }
+  });
 });
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
