@@ -2,6 +2,25 @@ var express = require("express");
 var router = express.Router();
 const { spawn } = require('child_process');
 const child_process = require('child_process');
+// --------------------------------------------------------------------- Routes for Postgres ------------------------------------------------------------------------------
+
+//Route to save postgresData
+const postgresModel = require('../models/postgres')
+router.post('/postgres/add',async (req,res)=>{
+    try{
+        const postgresItem = new postgresModel({
+            url: req.body.url,
+            username: req.body.username,
+            password: req.body.password
+        })
+
+        const itemSaved = await postgresItem.save();
+        res.status(200).json("Postgres Connection details added successfully");
+    }catch(error){
+        res.json(error);
+    }
+
+})
 
  // -------------------------------------------------------------- Routes for Postgres Data Retrieval ---------------------------------------------------------------------------
 
