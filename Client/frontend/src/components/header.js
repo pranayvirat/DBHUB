@@ -1,0 +1,61 @@
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+import Carousel from 'react-bootstrap/Carousel';
+import MySQL from '.././logos/MySQL.png'
+import PostgresSQL from '.././logos/Postgresql.png'
+import AWS from '.././logos/AWS-logo-2.jpg'
+import mongodb from '.././logos/mongodb.png'
+const Header = () =>{
+    return (
+        <div style={{ display: 'block', width: '30%', padding: 20 , height: '20%',
+        margin: 'auto', marginTop: '5%', marginBottom: '5%', backgroundColor: 'white', borderRadius: 10, boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)'
+         
+        }}>
+      
+          <Carousel>
+            <Carousel.Item interval={1500}>
+              <img
+                className="d-block w-100"
+    src={MySQL}
+                alt="Image One"
+              />
+              <Carousel.Caption>
+                <h3 styles={{bg:"red"}}>MySQL</h3>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item interval={1500}>
+              <img
+                className="d-block w-100"
+    src={PostgresSQL}
+                alt="Image One"
+              />
+              <Carousel.Caption>
+                <h3 styles={{bg:"red"}}>PostgreSQL</h3>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item interval={1500}>
+              <img
+                className="d-block w-100"
+    src={AWS}
+                alt="Image One"
+              />
+              <Carousel.Caption>
+                <h3 styles={{bg:"red"}}>AWS</h3>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item interval={1500}>
+              <img
+                className="d-block w-100"
+    src={mongodb}
+                alt="Image One"
+              />
+              <Carousel.Caption>
+                <h3 styles={{bg:"red"}}>mongodb</h3>
+              </Carousel.Caption>
+            </Carousel.Item>       
+          </Carousel>
+        </div>
+      );
+}
+
+export default Header;
