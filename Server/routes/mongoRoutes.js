@@ -103,6 +103,26 @@ router.get('/mongoData', (req, res) => {
               output += message;
             }
             });
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+           res.setHeader('Pragma', 'no-cache');
+           res.setHeader('Expires', '0');
+           sparkJob.stderr.on('data', (data) => {
+            console.error(`stderr: ${data}`);
+          });
+            // Handle child process exit
+            sparkJob.on('exit', (code) => {
+                if (code !== 0) {
+                  res.status(500).json({
+                    message: `Spark job failed with exit code ${code}`,
+                    output: output
+                  });
+                } else {
+                  res.json({
+                    message: 'Spark job completed successfully',
+                    output: output
+                  });
+                }
+              });
           
        });
 module.exports = router;
