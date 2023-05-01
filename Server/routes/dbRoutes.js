@@ -94,6 +94,16 @@ router.put('/mysql/getDetails/:id', async(req,res)=>{
         res.json(error);
     }
 })
+
+//Route to delete mySqlData
+router.delete('/mysql/getDetails/:id', async(req,res)=>{
+    try{
+        const deleteMySQLDetails = await mySQLModel.findByIdAndDelete(req.params.id);
+        res.status(200).json("MySQL Connection details deleted successfully");
+    }catch(error){
+        res.json(error);
+    }
+})
  // -------------------------------------------------------------- Routes for Postgres Data Retrieval ---------------------------------------------------------------------------
 
  router.get('/postgresData', (req, res) => {
