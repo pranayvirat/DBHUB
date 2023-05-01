@@ -81,6 +81,15 @@ const PostgresConnection = () =>{
 
     //Function to delete connections
 
+    const deleteConnections = async(id) =>{
+        try{
+        const res = await axios.delete(`http://54.236.43.43:3000/api/db/postgres/getDetails/${id}`);
+        const newConnectionList = connectionList.filter(connection => connection._id !==id);
+        setConnectionList(newConnectionList);
+        }catch(err){
+            console.error(err);
+        }
+    }
     return(
         <>
       
