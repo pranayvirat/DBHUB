@@ -23,10 +23,7 @@ Password: Virat@123
 
 To access AWS use the following credentials:
 
-accesskey: AKIAYYCKAU3N4GHS3MQJ
-secretKey: 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
-bucketName: teampbucket
-filePath: s3a://teampbucket/part-00000-d6d06467-4188-4242-89bd-8e3686925d79-c000.json
+
 
 
 
