@@ -8,7 +8,7 @@ router.get('/mongoConnection', (req, res) => {
     const {uri,database} = req.query;
     // Define command and arguments
     const command = 'spark-submit';
-    const args = ['--class', 'com.jdbc.mongoConnection', '--packages', 'org.mongodb.spark:mongo-spark-connector_2.12:10.1.1','--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/mongowhole_2.12-0.1.0-SNAPSHOT.jar',uri,database];
+    const args = ['--class', 'com.jdbc.mongoConnection', '--packages', 'org.mongodb.spark:mongo-spark-connector_2.12:10.1.1','--master', 'local[*]', './jars/mongowhole_2.12-0.1.0-SNAPSHOT.jar',uri,database];
     const sparkJob = spawn(command, args);
   
     let output = '';
@@ -44,12 +44,15 @@ router.get('/mongoConnection', (req, res) => {
         }
       });
     });
-router.get('/mongoCollection', (req, res) => {
+
+
+
+    router.get('/mongoCollection', (req, res) => {
 
         const {uri,database} = req.query;
         // Define command and arguments
         const command = 'spark-submit';
-        const args = ['--class', 'com.jdbc.mongoCollections', '--packages', 'org.mongodb.spark:mongo-spark-connector_2.12:10.1.1','--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/mongowhole_2.12-0.1.0-SNAPSHOT.jar',uri,database];
+        const args = ['--class', 'com.jdbc.mongoCollections', '--packages', 'org.mongodb.spark:mongo-spark-connector_2.12:10.1.1','--master', 'local[*]', './jars/mongowhole_2.12-0.1.0-SNAPSHOT.jar',uri,database];
         const sparkJob = spawn(command, args);
       
         let output = '';
@@ -85,15 +88,18 @@ router.get('/mongoCollection', (req, res) => {
             }
           });
         });
-router.get('/mongoData', (req, res) => {
+
+
+        router.get('/mongoData', (req, res) => {
 
             const {uri,database,collection,type} = req.query;
             // Define command and arguments
             const command = 'spark-submit';
-            const args = ['--class', 'com.jdbc.mongoData', '--packages', 'org.mongodb.spark:mongo-spark-connector_2.12:10.1.1','--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/mongowhole_2.12-0.1.0-SNAPSHOT.jar',uri,database,collection,type];
+            const args = ['--class', 'com.jdbc.mongoData', '--packages', 'org.mongodb.spark:mongo-spark-connector_2.12:10.1.1','--master', 'local[*]', './jars/mongowhole_2.12-0.1.0-SNAPSHOT.jar',uri,database,collection,type];
             const sparkJob = spawn(command, args);
             let output = '';
-                // Handle stdout data from child process
+
+            // Handle stdout data from child process
             sparkJob.stdout.on('data', (data) => {
               const message = data.toString();
               if(!message.includes("loading settings")){
@@ -103,7 +109,7 @@ router.get('/mongoData', (req, res) => {
               output += message;
             }
             });
-      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+           res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
            res.setHeader('Pragma', 'no-cache');
            res.setHeader('Expires', '0');
            sparkJob.stderr.on('data', (data) => {
@@ -123,6 +129,13 @@ router.get('/mongoData', (req, res) => {
                   });
                 }
               });
-          
-       });
+            });
+
+
+
+
+       
+
+
+
 module.exports = router;
