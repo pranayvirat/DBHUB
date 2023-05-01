@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 const { spawn } = require('child_process');
 const child_process = require('child_process');
+
+
 // --------------------------------------------------------------------- Routes for Postgres ------------------------------------------------------------------------------
 
 //Route to save postgresData
@@ -21,6 +23,7 @@ router.post('/postgres/add',async (req,res)=>{
     }
 
 })
+
 //Route to fetch postgresData
 router.get('/postgres/getDetails', async(req,res)=>{
     try{
@@ -30,6 +33,7 @@ router.get('/postgres/getDetails', async(req,res)=>{
         res.json(error);
     }
 })
+
 //Route to update postgreData
 router.put('/postgres/getDetails/:id', async(req,res)=>{
     try{
@@ -39,6 +43,7 @@ router.put('/postgres/getDetails/:id', async(req,res)=>{
         res.json(error);
     }
 })
+
 //Route to delete postgresData
 router.delete('/postgres/getDetails/:id', async(req,res)=>{
     try{
@@ -48,6 +53,98 @@ router.delete('/postgres/getDetails/:id', async(req,res)=>{
         res.json(error);
     }
 })
+
+
+
+// ---------------------------------------------------------------------- Routes for MySQL ---------------------------------------------------------------------------
+
+//Route to save mySqlData
+const mySQLModel = require('../models/mysql')
+router.post('/mysql/add',async (req,res)=>{
+    try{
+        const mySQLItem = new mySQLModel({
+            url: req.body.url,
+            username: req.body.username,
+            password: req.body.password
+        })
+
+        const itemSaved = await mySQLItem.save();
+        res.status(200).json("MySQL Connection details added successfully");
+    }catch(error){
+        res.json(error);
+    }
+
+})
+
+//Route to fetch mySqlData
+router.get('/mysql/getDetails', async(req,res)=>{
+    try{
+        const wholeMySqlData = await mySQLModel.find({});
+        res.status(200).json(wholeMySqlData);
+    }catch(error){
+        res.json(error);
+    }
+})
+//Route to update mySqlData
+router.put('/mysql/getDetails/:id', async(req,res)=>{
+    try{
+    const updateMySQLDetails = await mySQLModel.findByIdAndUpdate(req.params.id, {$set: req.body});
+    res.status(200).json("MySQL Connection details updated");
+    }catch(error){
+        res.json(error);
+    }
+})
+
+//Route to delete mySqlData
+router.delete('/mysql/getDetails/:id', async(req,res)=>{
+    try{
+        const deleteMySQLDetails = await mySQLModel.findByIdAndDelete(req.params.id);
+        res.status(200).json("MySQL Connection details deleted successfully");
+    }catch(error){
+        res.json(error);
+    }
+})
+
+
+// ---------------------------------------------------------------------- Routes for Download File ---------------------------------------------------------------------------
+const AdmZip = require('adm-zip');
+const archiver = require('archiver');
+const fs = require('fs');
+
+router.get('/download', (req, res) => {
+    const {fileType} = req.query
+    const type = fileType;
+    const folderPath = `/home/pranay/SE/sample_projects/stable copies/DBHUB_latest/Server/downloadedFiles/data.${type}`; // path of the folder to be zipped
+    const zipFilePath =   `/home/pranay/SE/sample_projects/stable copies/DBHUB_latest/Server/downloadedFiles/data.zip` // path where the zip file will be stored
+  
+    // create a new zip object
+    const zip = new AdmZip();
+  
+    // add the contents of the folder to the zip object
+    zip.addLocalFolder(folderPath);
+  
+    // write the zip file to disk
+    //Overwrite the zip file if it already exists
+    //Delete the zip file if it already exists
+    fs.Dir  = zipFilePath;
+    if (fs.existsSync(zipFilePath)) {
+        fs.unlinkSync(zipFilePath);
+    }
+
+    zip.writeZip(zipFilePath);
+    //zip.writeZip(zipFilePath);
+  
+    // set the response headers for downloading the file
+    res.setHeader('Content-Disposition', 'attachment; filename=download.zip');
+    res.setHeader('Content-Type', 'application/zip');
+  
+    // read the file and send it to the client
+    const filestream = fs.createReadStream(zipFilePath);
+    filestream.pipe(res);
+  });
+
+
+  
  // -------------------------------------------------------------- Routes for Postgres Data Retrieval ---------------------------------------------------------------------------
 
  router.get('/postgresData', (req, res) => {
