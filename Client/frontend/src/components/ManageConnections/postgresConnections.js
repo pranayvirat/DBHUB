@@ -93,7 +93,58 @@ const PostgresConnection = () =>{
     return(
         <>
       
-       
+        <h1 className='h1'>PostgresConnections</h1>
+        <div>{
+            connectionList.map(connection =>(<div>
+                 {
+                isUpdated === connection._id
+                ?
+                renderUpdateForm()
+                :
+                <>
+                <Table striped bordered hover>
+                <tbody>
+                    <tr>
+                        <td className='tdH'>
+                            URL
+                        </td>
+                        <td>
+                            {connection.url}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className='tdH'>User Name</td>
+                        <td>
+                            {connection.username}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className='tdH' > 
+                            Password 
+                        </td>
+                        <td>
+                            {connection.password}
+                        </td>
+                    </tr>
+
+                </tbody>
+            </Table>
+            <button onClick={()=>{setIsUpdated(connection._id)}} className='bottons' style={{
+                color: 'white',
+                backgroundColor: 'green',
+                border: 'none',
+                marginRight: '25px'
+            }}>
+            Update</button>
+            <button onClick={() => deleteConnections(connection._id)} className='bottons' style={{
+                color: 'white',
+                backgroundColor: 'red',
+                border: 'none',
+
+            }}>Delete</button>
+           </>  } </div>))
+        }
+            </div>
             </>
     )
  
