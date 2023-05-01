@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 const { spawn } = require('child_process');
 const child_process = require('child_process');
+
+
 // --------------------------------------------------------------------- Routes for Postgres ------------------------------------------------------------------------------
 
 //Route to save postgresData
@@ -21,6 +23,7 @@ router.post('/postgres/add',async (req,res)=>{
     }
 
 })
+
 //Route to fetch postgresData
 router.get('/postgres/getDetails', async(req,res)=>{
     try{
@@ -30,6 +33,7 @@ router.get('/postgres/getDetails', async(req,res)=>{
         res.json(error);
     }
 })
+
 //Route to update postgreData
 router.put('/postgres/getDetails/:id', async(req,res)=>{
     try{
@@ -39,6 +43,7 @@ router.put('/postgres/getDetails/:id', async(req,res)=>{
         res.json(error);
     }
 })
+
 //Route to delete postgresData
 router.delete('/postgres/getDetails/:id', async(req,res)=>{
     try{
@@ -48,6 +53,30 @@ router.delete('/postgres/getDetails/:id', async(req,res)=>{
         res.json(error);
     }
 })
+
+
+
+// ---------------------------------------------------------------------- Routes for MySQL ---------------------------------------------------------------------------
+
+//Route to save mySqlData
+const mySQLModel = require('../models/mysql')
+router.post('/mysql/add',async (req,res)=>{
+    try{
+        const mySQLItem = new mySQLModel({
+            url: req.body.url,
+            username: req.body.username,
+            password: req.body.password
+        })
+
+        const itemSaved = await mySQLItem.save();
+        res.status(200).json("MySQL Connection details added successfully");
+    }catch(error){
+        res.json(error);
+    }
+
+})
+
+
  // -------------------------------------------------------------- Routes for Postgres Data Retrieval ---------------------------------------------------------------------------
 
  router.get('/postgresData', (req, res) => {
