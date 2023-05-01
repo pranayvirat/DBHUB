@@ -1,11 +1,14 @@
 import {useState} from "react"
 import "../navbar.css"
 import {Link} from "react-router-dom"
-
+import styles from "./styles.module.css"
 
 export default function Navbar(){
     const [isNavExpanded, setIsNavExpanded] = useState(false)
-
+    const handleLogout = () => {
+		localStorage.removeItem("token");
+		window.location.reload();
+	};
 
     return(
         <nav className="navigation">
@@ -26,26 +29,69 @@ export default function Navbar(){
           />
         </svg>
             </button>
+            <button className={styles.white_btn} onClick={handleLogout}>
+					Logout
+				</button>
             <div 
              className={isNavExpanded ? "navigation-menu expanded" : "navigation-menu"} >
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                   <Link to="/" style={{
+                            textDecoration:"none",
+                            color:"black"
+                        }}>Home</Link>
+                    </li>
+                    {/* <li>
+                        <Link style={{
+                            textDecoration:"none",
+                            color:"black"
+                        }} to="/about">About</Link>
+                    </li> */}
+                    <li>
+                        {/* <a href="/postgresql" style={{
+                            textDecoration:"none",
+                            color:"black"
+                        }}>PostgreSQL</a> */}
+                        <Link to="/postgresql" style={{
+                            textDecoration:"none",
+                            color:"black"
+                        }}>PostgreSQL</Link>
                     </li>
                     <li>
-                        <Link to="/about">About</Link>
+                        <Link to="/mysql" style={{
+                            textDecoration:"none",
+                            color:"black"
+                        }}>MySQL</Link>
                     </li>
                     <li>
-                        <a href="/postgresql">PostgreSQL</a>
+                        <Link to="/aws" style={{
+                            textDecoration:"none",
+                            color:"black"
+                        }}>AWS</Link>
                     </li>
                     <li>
-                        <a href="/mysql">MySQL</a>
+                        <Link to="/mongodb" style={{
+                            textDecoration:"none",
+                            color:"black"
+                        }}>MongoDB</Link>
                     </li>
                     <li>
-                        <a href="/aws">AWS</a>
+                        <Link to="/manageConnections" style={{
+                            textDecoration:"none",
+                            color:"black"
+                        }}>Manage Connections</Link>
                     </li>
                     <li>
-                        <a href="/mongodb">MongoDB</a>
+                        <Link to="/getData" style={{
+                            textDecoration:"none",
+                            color:"black"
+                        }}>Centralized Data</Link>
+                    </li>
+                    <li>
+                        <a href="/manageConnections">Manage Connections</a>
+                    </li>
+                    <li>
+                        <a href="/getData">Centralized Data</a>
                     </li>
                 </ul>
              </div>

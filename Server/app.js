@@ -4,8 +4,12 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
-var indexRouter = require("./routes/index");
+var authsRouter = require("./routes/auth");
 var usersRouter = require("./routes/users");
+const dbRouter = require("./routes/dbRoutes");
+const mongoRouter = require("./routes/mongoRoutes");
+const connection = require("./db");
+const awsConnection = require("./routes/aws");
 
 var app = express();
 
@@ -22,28 +26,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+connection();
 
-app.get('/execute-spark-job-mysql', (req, res) => {
-  // Define command and arguments
-  const command = 'spark-submit';
-  const {url, username, password} = req.query;
-  const args = ['--class', 'com.mysql.checkConnection', '--driver-class-path','/home/pranay/Downloads/mysql-connector-j-8.0.32.jar', '--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/mysql-connection_2.12-1.0.jar',url,username,password];
-
-  // Spawn child process to execute command
-  const sparkJob = spawn(command, args);
-
-  // Log output from child process
-  sparkJob.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-    res.send(`Spark job returned${data}`);
-  });
-
-  // Handle child process exit
-  sparkJob.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-    
-  });
-});
+app.use("/api/mongo", mongoRouter);
 
 
 
@@ -110,13 +95,37 @@ app.get('/execute-spark-retrieve-job', (req, res) => {
   });
 });
 
+app.get('/execute-spark-job-mysql', (req, res) => {
+  // Define command and arguments
+  const command = 'spark-submit';
+  const {url, username, password} = req.query;
+  const args = ['--class', 'com.mysql.checkConnection', '--driver-class-path','./jars/mysql-connector-j-8.0.32.jar', '--master', 'local[*]', './jars/mysql-connection_2.12-1.0.jar',url,username,password];
+  let stdoutData = '';
+  // Spawn child process to execute command
+  const sparkJob = spawn(command, args);
 
+  // Log output from child process
+  sparkJob.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+    stdoutData += data.toString(); 
+    res.send(stdoutData);
+  });
+
+  // Handle child process exit
+  sparkJob.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+    
+  });
+});
+
+
+//Mysql Spark api for table retrieval
 app.get('/execute-spark-retrieve-job-mysql', (req, res) => {
 
   const {url,username,password} = req.query;
   // Define command and arguments
   const command = 'spark-submit';
-  const args = ['--class', 'com.mysql.retrieveTables', '--driver-class-path','/home/pranay/Downloads/mysql-connector-j-8.0.32.jar', '--master', 'local[*]', '/home/pranay/SE/sample_projects/jars/mysql-retrieval_2.12-1.0.jar',url,username,password];
+  const args = ['--class', 'com.mysql.retrieveTables', '--driver-class-path','/home/pranay/Downloads/mysql-connector-j-8.0.32.jar', '--master', 'local[*]', '/home/pranay/SE/sample_projects/jars_updated/mysql-retrieval_2.12-1.0.jar',url,username,password];
 
   // Spawn child process to execute command
   const sparkJob = spawn(command, args);
@@ -124,7 +133,7 @@ app.get('/execute-spark-retrieve-job-mysql', (req, res) => {
   // Log output from child process
   sparkJob.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
-    res.send(`Spark job returned ${data}`);
+    res.send(`${data}`);
   });
 
 
