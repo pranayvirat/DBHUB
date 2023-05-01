@@ -29,7 +29,58 @@ const PostgresConnection = () =>{
     },[]);
 
 
-   
+    //Update Form
+
+    const renderUpdateForm = (e) =>(
+        <Form onSubmit={(e)=>{updateConnections(e)}}> 
+      <Form.Group>
+          <Form.Label className='uH'>URL:</Form.Label>
+          <Form.Control type="text" name="url" value={updatedUrl} className='input' onChange={e=>(setUpdatedUrl(e.target.value))}
+                        placeholder="Enter you new PostgreSQL URL" />
+                        <br />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label className='uH'>Enter your username :</Form.Label>
+          <Form.Control type="text"  name="username" value={updatedUsername} className='input' onChange={e=>(setUpdatedUsername(e.target.value))}
+                        placeholder="Enter your new username "/>
+                        <br />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label className='uH'>Enter your password :</Form.Label>
+          <Form.Control type="password"  name="password" value={updatePassword} className='input' onChange={e=>{setUpdatePassword(e.target.value)}} placeholder="Enter your new password" />
+          <br />
+        </Form.Group>
+        <Button variant="primary" type="submit" className='uBotton'>
+           Update Details
+        </Button>
+        </Form>
+    )
+
+
+    //Function to update connections
+    const updateConnections = async (e) =>{
+        e.preventDefault();
+        try{
+            const res = await axios.put(`http://54.236.43.43:3000/api/db/postgres/getDetails/${isUpdated}`,{url: updatedUrl, username: updatedUsername, password: updatePassword} )
+            const updatedConnectionIndex = connectionList.findIndex(connection => connection._id === isUpdated);
+            const updatedConnectionUrl = connectionList[updatedConnectionIndex].url = updatedUrl;
+            const updatedConnectionUsername = connectionList[updatedConnectionIndex].username = updatedUsername;
+            const updatedConnectionPassword = connectionList[updatedConnectionIndex].password = updatePassword;
+
+
+            setUpdatedUrl('');
+            setUpdatePassword('');
+            setUpdatedUsername('');
+            console.log(res.data);
+            getConnections();
+        }catch(error){
+            console.error(error);
+        }
+    }
+
+
+    //Function to delete connections
+
     return(
         <>
       
