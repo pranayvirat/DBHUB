@@ -123,6 +123,38 @@ router.get('/downloadPostgres', (req, res) => {
     const filestream = fs.createReadStream(zipFilePath);
     filestream.pipe(res);
     });
+
+    router.get('/downloadMySQL', (req, res) => {
+        const {fileType} = req.query
+        const type = fileType;
+        const folderPath = `/home/pranay/SE/sample_projects/stable copies/DBHUB_latest/Server/downloadedFiles/mysql/data.${type}`; // path of the folder to be zipped
+        const zipFilePath =   `/home/pranay/SE/sample_projects/stable copies/DBHUB_latest/Server/downloadedFiles/mysql/data.zip` // path where the zip file will be stored
+      
+        // create a new zip object
+        const zip = new AdmZip();
+      
+        // add the contents of the folder to the zip object
+        zip.addLocalFolder(folderPath);
+      
+        // write the zip file to disk
+        //Overwrite the zip file if it already exists
+        //Delete the zip file if it already exists
+        fs.Dir  = zipFilePath;
+        if (fs.existsSync(zipFilePath)) {
+            fs.unlinkSync(zipFilePath);
+        }
+    
+        zip.writeZip(zipFilePath);
+        //zip.writeZip(zipFilePath);
+      
+        // set the response headers for downloading the file
+        res.setHeader('Content-Disposition', 'attachment; filename=download.zip');
+        res.setHeader('Content-Type', 'application/zip');
+      
+        // read the file and send it to the client
+        const filestream = fs.createReadStream(zipFilePath);
+        filestream.pipe(res);
+      });
 //-------------------------------------------------------------------Route to Download MongoDB Data ---------------------------------------------
 router.get('/downloadMongo', (req, res) => {
      const {fileType} = req.query
