@@ -85,6 +85,15 @@ router.get('/mysql/getDetails', async(req,res)=>{
         res.json(error);
     }
 })
+//Route to update mySqlData
+router.put('/mysql/getDetails/:id', async(req,res)=>{
+    try{
+    const updateMySQLDetails = await mySQLModel.findByIdAndUpdate(req.params.id, {$set: req.body});
+    res.status(200).json("MySQL Connection details updated");
+    }catch(error){
+        res.json(error);
+    }
+})
  // -------------------------------------------------------------- Routes for Postgres Data Retrieval ---------------------------------------------------------------------------
 
  router.get('/postgresData', (req, res) => {
