@@ -11,8 +11,16 @@ export default function Navbar(){
 	};
 
     return(
-        <nav className="navigation">
-            <a href="/" className="brand-name">
+        <nav className="navigation" style={{
+            backgroundColor:"#D2FBA4",
+            padding:"10px",
+            position:"static",
+        }}>
+            <a href="/" className="brand-name" style={{
+                fontWeight:"bold",
+                // boxShadow:  '0 2px 5px #ccc',
+               
+            }}>
                 DBHUB
             </a>
             <button className="hamburger" onClick={() => { setIsNavExpanded(!isNavExpanded)}}>
@@ -29,14 +37,18 @@ export default function Navbar(){
           />
         </svg>
             </button>
-            <button className={styles.white_btn} onClick={handleLogout}>
+            <button className={styles.white_btn} onClick={handleLogout} style={{
+                marginLeft:"20px",
+                // padding:"5px",
+                
+            }}>
 					Logout
 				</button>
             <div 
              className={isNavExpanded ? "navigation-menu expanded" : "navigation-menu"} >
                 <ul>
                     <li>
-                   <Link to="/" style={{
+                        <Link to="/" style={{
                             textDecoration:"none",
                             color:"black"
                         }}>Home</Link>
@@ -85,13 +97,7 @@ export default function Navbar(){
                         <Link to="/getData" style={{
                             textDecoration:"none",
                             color:"black"
-                        }}>Centralized Data</Link>
-                    </li>
-                    <li>
-                        <a href="/manageConnections">Manage Connections</a>
-                    </li>
-                    <li>
-                        <a href="/getData">Centralized Data</a>
+                        }}>Centralized Data</Link>
                     </li>
                 </ul>
              </div>

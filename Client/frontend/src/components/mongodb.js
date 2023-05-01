@@ -107,13 +107,12 @@ export default function MongoDB() {
     event.preventDefault();
     console.log('URL value:', formData.url);
   };
-
-  //Handler for CheckConnection button
+//Handler for CheckConnection button
   const handleClick = (event) => {
     event.preventDefault();
     console.log('URL value:', formData.uri);
     console.log('Database value:', formData.database);
-    axios.defaults.baseURL = "http://localhost:3000"
+    axios.defaults.baseURL = "http://54.236.43.43:3000"   //http://localhost:3000"
     axios
       .get("/api/mongo/mongoConnection", {
         params: {
@@ -133,10 +132,10 @@ export default function MongoDB() {
 
   const handleCloseAlert = () => setShowAlert(false);
 
-//Handler for get tables button
+//Handler for the get tables button
   const handleTables = (event) => {
     event.preventDefault();
-    axios.defaults.baseURL = "http://localhost:3000"
+    axios.defaults.baseURL = "http://54.236.43.43:3000"  // "http://localhost:3000"
     axios.get("/api/mongo/mongoCollection", {
       params: {
         uri: formData.uri,
@@ -156,7 +155,7 @@ export default function MongoDB() {
 
     event.preventDefault();
   
-      axios.defaults.baseURL = "http://localhost:3000"
+      axios.defaults.baseURL =  "http://54.236.43.43:3000"  //"http://localhost:3000"
       axios.get("/api/mongo/mongoData", {
         params: {
           uri: formData.uri,
@@ -177,12 +176,12 @@ export default function MongoDB() {
         });
     
   };
-  //Handler for download data
+  //Handler for the download data
   const handleClick1 = async (event) => {
     try {
       event.preventDefault();
       
-      const response = await axios.get('http://localhost:3000/api/db/downloadMongo',{
+      const response = await axios.get('http://54.236.43.43:3000/api/db/downloadMongo',{
        params:{
          fileType: type,
        },
@@ -430,3 +429,4 @@ export default function MongoDB() {
 
   )
 }
+
