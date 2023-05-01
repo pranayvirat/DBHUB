@@ -5,6 +5,7 @@ import {Table} from 'react-bootstrap';
 import Navbar from '../Navbar'
 import {Form} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button';
+import './style.css';
 const MySQLConnections = () =>{
 
     const [connectionList, setConnectionList] = useState([]);
@@ -15,7 +16,7 @@ const MySQLConnections = () =>{
 
     const getConnections = async() =>{
         try{
-            const result = await axios.get("http://localhost:3000/api/db/mysql/getDetails");
+            const result = await axios.get("http://54.236.43.43:3000/api/db/mysql/getDetails");
             setConnectionList(result.data);
             console.log(setConnectionList);
         }
@@ -27,23 +28,23 @@ const MySQLConnections = () =>{
     const renderUpdateForm = (e) =>(
         <Form onSubmit={(e)=>{updateConnections(e)}}> 
       <Form.Group>
-          <Form.Label>URL:</Form.Label>
-          <Form.Control type="text" name="url" value={updatedUrl} onChange={e=>(setUpdatedUrl(e.target.value))}
+          <Form.Label className='uH'>URL:</Form.Label>
+          <Form.Control type="text" name="url" value={updatedUrl} className='input' onChange={e=>(setUpdatedUrl(e.target.value))}
                         placeholder="Enter you new PostgreSQL URL" />
                         <br />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Enter your username:</Form.Label>
-          <Form.Control type="text"  name="username" value={updatedUsername} onChange={e=>(setUpdatedUsername(e.target.value))}
+          <Form.Label className='uH'>Enter your username:</Form.Label>
+          <Form.Control type="text"  name="username" value={updatedUsername} className='input' onChange={e=>(setUpdatedUsername(e.target.value))}
                         placeholder="Enter your new username "/>
                         <br />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Enter your password:</Form.Label>
-          <Form.Control type="password"  name="password" value={updatePassword} onChange={e=>{setUpdatePassword(e.target.value)}} placeholder="Enter your new password" />
+          <Form.Label className='uH'>Enter your password:</Form.Label>
+          <Form.Control type="password"  name="password" value={updatePassword} className='input' onChange={e=>{setUpdatePassword(e.target.value)}} placeholder="Enter your new password" />
           <br />
         </Form.Group>
-        <Button variant="primary" type="submit" >
+        <Button variant="primary" type="submit" className='uBotton'>
            Update Details
         </Button>
         </Form>
@@ -54,7 +55,7 @@ const MySQLConnections = () =>{
     const updateConnections = async (e) =>{
         e.preventDefault();
         try{
-            const res = await axios.put(`http://localhost:3000/api/db/postgres/getDetails/${isUpdated}`,{url: updatedUrl, username: updatedUsername, password: updatePassword} )
+            const res = await axios.put(`http://54.236.43.43:3000/api/db/mysql/getDetails/${isUpdated}`,{url: updatedUrl, username: updatedUsername, password: updatePassword} )
             const updatedConnectionIndex = connectionList.findIndex(connection => connection._id === isUpdated);
             const updatedConnectionUrl = connectionList[updatedConnectionIndex].url = updatedUrl;
             const updatedConnectionUsername = connectionList[updatedConnectionIndex].username = updatedUsername;
@@ -76,7 +77,7 @@ const MySQLConnections = () =>{
 
     const deleteConnections = async(id) =>{
         try{
-        const res = await axios.delete(`http://localhost:3000/api/db/postgres/getDetails/${id}`);
+        const res = await axios.delete(`http://54.236.43.43:3000/api/db/mysql/getDetails/${id}`);
         const newConnectionList = connectionList.filter(connection => connection._id !==id);
         setConnectionList(newConnectionList);
         }catch(err){
@@ -89,7 +90,7 @@ const MySQLConnections = () =>{
     },[]);
     return(
         <>
-        <h1>MySQL connections</h1>
+        <h1 className='h1'>MySQL connections</h1>
         <div>{
             connectionList.map(connection =>(<div>
                 {
@@ -101,7 +102,7 @@ const MySQLConnections = () =>{
                <Table striped bordered hover>
                <tbody>
                    <tr>
-                       <td>
+                       <td className='tdH'>
                            URL
                        </td>
                        <td>
@@ -109,13 +110,13 @@ const MySQLConnections = () =>{
                        </td>
                    </tr>
                    <tr>
-                       <td>User Name</td>
+                       <td className='tdH'>User Name</td>
                        <td>
                            {connection.username}
                        </td>
                    </tr>
                    <tr>
-                       <td>
+                       <td className='tdH'>
                            Password
                        </td>
                        <td>
@@ -125,9 +126,19 @@ const MySQLConnections = () =>{
 
                </tbody>
            </Table>
-           <button onClick={()=>{setIsUpdated(connection._id)}}>
+           <button onClick={()=>{setIsUpdated(connection._id)}} className='bottons'  style={{
+                color: 'white',
+                backgroundColor: 'green',
+                border: 'none',
+                marginRight: '25px'
+            }}>
            Update</button>
-           <button onClick={() => deleteConnections(connection._id)}>Delete</button>
+           <button onClick={() => deleteConnections(connection._id)} className='bottons' style={{
+                color: 'white',
+                backgroundColor: 'red',
+                border: 'none',
+
+            }} >Delete</button>
           </>  } </div>))
        }
            </div>
