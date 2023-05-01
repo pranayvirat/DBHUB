@@ -76,7 +76,15 @@ router.post('/mysql/add',async (req,res)=>{
 
 })
 
-
+//Route to fetch mySqlData
+router.get('/mysql/getDetails', async(req,res)=>{
+    try{
+        const wholeMySqlData = await mySQLModel.find({});
+        res.status(200).json(wholeMySqlData);
+    }catch(error){
+        res.json(error);
+    }
+})
  // -------------------------------------------------------------- Routes for Postgres Data Retrieval ---------------------------------------------------------------------------
 
  router.get('/postgresData', (req, res) => {
