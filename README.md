@@ -38,12 +38,12 @@ Guide to use the application:
 4. Brief description about the project is mentioned in the homepage and a carousel is provided to redirect to specific database pages.
 5. Once any of the database page is selected, user needs to input the database credentials to connect to database.
 6. Parameters for PostgreSQL:
-    a. URL: The JDBC URL for PostgreSQL is a string that specifies the address of the database server, along with any necessary parameters for connecting to the database. Here is an example JDBC URL for connecting to a PostgreSQL database:<b>jdbc:postgresql://localhost:5432/mydatabase</b></p><p>In this example, localhost is the hostname or IP address of the server where the PostgreSQL database is running, 5432 is the port number on which the database is listening for connections, and mydatabase is the name of the database you want to connect to. You may need to replace localhost with the actual hostname or IP address of your server, and mydatabase with the name of your own database. 
-    b. Username: When connecting to a PostgreSQL database, you need to provide a valid username.
-    c. Password:  When connecting to a PostgreSQL database, you need to provide a valid password
-    d. tablename: To retrieve data from any specific data, user needs to input the table name.
-    e. Check Connection: If user wants that connection to be saved needs to select this check box.
-    f. File Types: If user want to export the tabular data to any file format needs to select the type and then retrieve data and then download the data.
+    1. URL: The JDBC URL for PostgreSQL is a string that specifies the address of the database server, along with any necessary parameters for connecting to the database. Here is an example JDBC URL for connecting to a PostgreSQL database:<b>jdbc:postgresql://localhost:5432/mydatabase</b></p><p>In this example, localhost is the hostname or IP address of the server where the PostgreSQL database is running, 5432 is the port number on which the database is listening for connections, and mydatabase is the name of the database you want to connect to. You may need to replace localhost with the actual hostname or IP address of your server, and mydatabase with the name of your own database. 
+    2. Username: When connecting to a PostgreSQL database, you need to provide a valid username.
+    3. Password:  When connecting to a PostgreSQL database, you need to provide a valid password
+    4. tablename: To retrieve data from any specific data, user needs to input the table name.
+    5. Check Connection: If user wants that connection to be saved needs to select this check box.
+    6. File Types: If user want to export the tabular data to any file format needs to select the type and then retrieve data and then download the data.
     
 7. Paramaters for MySQL:
     a. URL: The JDBC URL for MySQL usually looks like this: jdbc:mysql://localhost:3306/dbname , where localhost is the name of the server where MySQL is running, 3306 is the port number, and dbname is the name of the database you want to connect to. You will need to replace localhost and dbname with the appropriate values for your MySQL setup.
